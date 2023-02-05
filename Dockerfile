@@ -47,7 +47,8 @@ RUN mkdir -p \
 COPY supervisord.conf /
 
 RUN sed -i "s/opcache.interned_strings_buffer=16/opcache.interned_strings_buffer=24/g" /usr/local/etc/php/conf.d/opcache-recommended.ini && \
-    echo '* * * * * php -f /var/www/html/cron.php' > /var/spool/cron/crontabs/www-data
+    rm -rf /var/spool/cron/crontabs/* && \
+    echo '* * * * * php -f /var/www/html/cron.php' > /var/spool/cron/crontabs/root
 
 COPY php.ini /usr/local/etc/php/conf.d/zz-php.conf
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/zz-php-fpm.conf
